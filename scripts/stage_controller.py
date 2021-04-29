@@ -79,6 +79,6 @@ if __name__ == "__main__":
             env.shutdown()
         # Termino do exemplo--------------------------------------------------------------------------------
         
-        # FAÇA O CÓDIGO AQUI
+        # FACA O CODIGO AQUI
             
         r.sleep()
