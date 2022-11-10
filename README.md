@@ -1,1 +1,1 @@
-# Disciplina de Tópicos em Sistemas Robóticos e Introdução à Robótica Inteligente
+# Disciplina de Robótica - ICA
