@@ -6,9 +6,10 @@ from sensor_msgs.msg import LaserScan
 from nav_msgs.msg import Odometry
 import numpy as np
 import math
+from tf.transformations import euler_from_quaternion, quaternion_from_euler
 
 class Environment():
-    def __init__(self):
+    def __init__(self, target_x, target_y):
         rospy.Subscriber('/odom', Odometry, self.odometry_callback)
         rospy.Subscriber('/base_scan', LaserScan, self.laser_callback)
         self.pub_cmd_vel = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
@@ -16,6 +17,8 @@ class Environment():
         self.laser = LaserScan()
         self.position_robot_x = 0.
         self.position_robot_y = 0.
+        self.goal_y = target_y
+        self.goal_x = target_x
         rospy.sleep(1)
         
         
@@ -23,6 +26,10 @@ class Environment():
         self.odometry = data
         self.position_robot_x = data.pose.pose.position.x
         self.position_robot_y = data.pose.pose.position.y
+        orientation = data.pose.pose.orientation
+        orientation_list = [orientation.x, orientation.y, orientation.z, orientation.w]
+        _, _, self.yaw = euler_from_quaternion(orientation_list)
+        self.goal_angle = math.atan2(self.goal_y - self.position_robot_y, self.goal_x - self.position_robot_x)
     
     def laser_callback(self, data):
         self.laser = data
@@ -45,10 +52,11 @@ class Environment():
 if __name__ == "__main__":
     rospy.init_node('stage_controller_node', anonymous=False)
     
-    env = Environment()
-    
     target_x = -3.0
     target_y = 5.0
+
+    env = Environment(target_x, target_y)
+       
     
     min_distance = 0.3
     
@@ -62,6 +70,8 @@ if __name__ == "__main__":
         y_robot = env.position_robot_y
         
         distance_robot = math.sqrt((x_robot - target_x)**2 + (y_robot - target_y)**2)
+
+        goal_angle = math.atan2(target_y - y_robot, target_x - x_robot)
         
         # Exemplo abaixo ----------------------------------------------------------------
         if distance_robot > min_distance:
