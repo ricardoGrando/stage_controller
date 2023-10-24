@@ -52,8 +52,8 @@ class Environment():
 if __name__ == "__main__":
     rospy.init_node('stage_controller_node', anonymous=False)
     
-    target_x = -3.0
-    target_y = 5.0
+    target_x = -4.0
+    target_y = 7.0
 
     env = Environment(target_x, target_y)
        

@@ -64,7 +64,7 @@ window
 floorplan
 (
   name "maze"
-  bitmap "maze1.png"
+  bitmap "maze.png"
   size [ 10.0 10.0 2.0 ]
   pose [  0.0  3.0 0.0 0.0 ]
 )
@@ -77,5 +77,4 @@ turtlebot
   color "purple"
 )
 
-block( pose [ -3.000 5.000 0.000 .000 ] color "green")
-block( pose [ -4.000 7.100 0.000 .000 ] color "red")
+block( pose [ -4.000 7.000 0.000 .000 ] color "red")
